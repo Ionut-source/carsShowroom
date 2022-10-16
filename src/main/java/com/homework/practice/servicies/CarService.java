@@ -55,22 +55,15 @@ public class CarService {
 
 
     public void deleteCarById(Long carId) {
-        if (carId != null) {
+        boolean exists = carRepository.existsById(carId);
+        if (!exists) {
+            throw new IllegalStateException("car with id " + carId + " does not exist");
+        }
             carRepository.deleteById(carId);
         }
-    }
+
 
     public void insertCar(CarDTO carDTO) {
-        if (carDTO != null) {
-            Car car = carRepository.findById(carDTO.getId()).orElse(null);
-            if (car != null) {
-                car.setCarBrand(carDTO.getCarBrand());
-                car.setCarModel(carDTO.getCarModel());
-                car.setCarColor(carDTO.getCarColor());
-                car.setCarPrice(carDTO.getCarPrice());
-                car.setCurrency(carDTO.getCurrency());
-                carRepository.save(car);
-            }
-        }
+        System.out.println(carDTO);
     }
 }
